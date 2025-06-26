@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+pyvenv.cfg
 
 # C extensions
 *.so
@@ -16,6 +17,8 @@ eggs/
 .eggs/
 lib/
 lib64/
+Scripts/
+Include/
 parts/
 sdist/
 var/
