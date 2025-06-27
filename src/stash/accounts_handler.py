@@ -54,3 +54,51 @@ def add(obj: dict, full_name: str, email: str, dob: click.DateTime):
     else:
         click.echo(click.style("Account already exists!", fg="red"))
 
+@click.command()
+@click.argument("id", type=click.STRING)
+@click.pass_obj
+def delete(obj: dict, id: str):
+
+    '''
+    Deletes the account of the provided account ID.
+
+    ID is the unique identifier for the account.
+    '''
+
+    # Load the contents from the JSON
+    with open(obj["path"], 'r') as json_file:
+        contents = json.load(json_file)
+
+    # Search for the account to delete
+    account_index = -1
+    for i, account in enumerate(contents):
+        if account["id"] == id:
+            account_index = account_index + i + 1
+            break
+    
+    # If account does not exist
+    if account_index == -1:
+        click.echo(f"{click.style("ERROR:", fg="black", bg="red")} Cannot find the account. Please re-check the ID.")
+    else:
+        # Ask user via prompt for confirmation
+        click.echo(tabulate.tabulate(
+            [
+                [click.style("Holder's Full Name", fg="green"), account["full_name"]],
+                [click.style("Holder's Email", fg="green"), account["email"]],
+                [click.style("Holder's DOB", fg="green"), account["dob"]],
+                [click.style("Account Unique ID", fg="green"), click.style(account["id"], fg="red")]
+            ]
+            ,tablefmt="grid"))
+        
+        if click.confirm("Do you want to proceed to delete the above account?"):
+            contents.pop(account_index)
+
+            # Save the new contents
+            with open(obj["path"], 'w') as new_json_file:
+                json.dump(contents, new_json_file, indent=2)
+            
+            click.echo(click.style("Account removed successfully", fg="green"))
+        else:
+            click.echo(click.style("Account was not removed.", fg="yellow"))
+
+

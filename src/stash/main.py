@@ -27,3 +27,4 @@ def accounts(ctx):
 
 # Add sub-commands to accounts group
 accounts.add_command(accounts_handler.add)
+accounts.add_command(accounts_handler.delete)
