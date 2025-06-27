@@ -37,4 +37,35 @@ def create_unique_id(full_name:str, dob: datetime):
     Example: firstnamelastname_daymonthyear
     '''
 
-    return full_name.replace(" ", "").lower() + "_" + str(dob.day) + str(dob.month) + str(dob.year) 
+    return full_name.replace(" ", "").lower() + "_" + str(dob.day) + str(dob.month) + str(dob.year)
+
+def is_duplicate_account(contents: list, holder_full_name:str, dob: datetime):
+
+    '''
+    Checks the given list of contents to see if current account in question already exists in contents.
+    Returns True if account already exists contents
+    Returns false if account does not exist in contents
+    '''
+
+    is_duplicate_id = False
+
+    # Loop through each account
+    for account in contents:
+        
+        # Generate unique ID for current account
+        current_acc_id = create_unique_id(holder_full_name, dob)
+
+        # Compare unique IDs
+        if current_acc_id == account["id"]:
+            is_duplicate_id = True
+            break
+    
+    if not is_duplicate_id:
+        # Account is not duplicate
+        return False
+    else:
+        # Account is duplicate
+        return True
+    
+
+

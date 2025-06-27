@@ -32,20 +32,25 @@ def add(obj: dict, full_name: str, email: str, dob: click.DateTime):
         contents = json.load(json_file)
 
     # Append the current account to the existing contents
-    contents.append(account)
+    if not utils.is_duplicate_account(contents, full_name, dob):
+        contents.append(account)
 
-    # Write back the new data
-    with open(obj["path"], "w") as new_json:
-        json.dump(contents, new_json, indent=2, ensure_ascii=True)
+        # Write back the new data
+        with open(obj["path"], "w") as new_json:
+            json.dump(contents, new_json, indent=2, ensure_ascii=True)
+        
+        # Display to console
+        click.echo("\n")
+        click.echo(click.style("A new account with the following details has been successfully created!", fg="green"))
+        
+        table_data = [
+            [click.style("Holder's Full Name", fg="green"), account["full_name"]],
+            [click.style("Holder's Email", fg="green"), account["email"]],
+            [click.style("Holder's DOB", fg="green"), account["dob"]],
+            [click.style("Account Unique ID", fg="green"), click.style(account["id"], fg="red")]
+        ]
+        click.echo(tabulate.tabulate(table_data, tablefmt="grid"))
     
-    # Display to console
-    click.echo("\n")
-    click.echo(click.style("A new account with the following details has been successfully created!", fg="green"))
-    
-    table_data = [
-        [click.style("Holder's Full Name", fg="green"), account["full_name"]],
-        [click.style("Holder's Email", fg="green"), account["email"]],
-        [click.style("Holder's DOB", fg="green"), account["dob"]],
-        [click.style("Account Unique ID", fg="green"), click.style(account["id"], fg="red")]
-    ]
-    click.echo(tabulate.tabulate(table_data, tablefmt="grid"))
+    else:
+        click.echo(click.style("Account already exists!", fg="red"))
+
