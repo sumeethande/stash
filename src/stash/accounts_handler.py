@@ -101,4 +101,33 @@ def delete(obj: dict, id: str):
         else:
             click.echo(click.style("Account was not removed.", fg="yellow"))
 
+@click.command()
+@click.pass_obj
+def summary(obj: dict):
+    '''
+    Display all accounts on Stash with their details. Included details 
+    are account holder's name, email, DOB and account ID.
+    '''
 
+    # Load the contents of the JSON
+    with open(obj["path"], "r") as json_file:
+        contents = json.load(json_file)
+    
+    # Loop through the accounts
+    table = []
+    headers = []
+
+    for account in contents:
+        row = []
+        for key, value in account.items():
+            if key != "transactions":
+                row.append(value)
+        table.append(row)
+    
+    # Populate headers
+    for header_item in contents[0].keys():
+        if header_item != "transactions":
+            headers.append(header_item)
+
+    click.echo(click.style("Here is a summary of all accounts on Stash", fg="yellow"))
+    click.echo(tabulate.tabulate(table, headers, tablefmt="grid"))
