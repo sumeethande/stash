@@ -1,5 +1,5 @@
 import click
-from stash import accounts_handler, initializer, utils
+from stash import accounts_handler, transactions_handler, initializer, utils
 
 # -------------------- MAIN CLI GROUP --------------------
 @click.group()
@@ -29,3 +29,19 @@ def accounts(ctx):
 accounts.add_command(accounts_handler.add)
 accounts.add_command(accounts_handler.delete)
 accounts.add_command(accounts_handler.summary)
+
+# -------------------- TRANSACTIONS GROUP --------------------
+@cli.group()
+@click.pass_context
+def transactions(ctx):
+    '''
+    Utilities to manage transactions.
+    '''
+    ctx.ensure_object(dict)
+    config = utils.load_config()
+
+    if not config:
+        raise click.UsageError("No configuration found – run `stash init` first.")
+    
+# Add sub-commands to transactions group
+transactions.add_command(transactions_handler.credit)
