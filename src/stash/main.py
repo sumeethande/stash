@@ -29,6 +29,7 @@ def accounts(ctx):
 accounts.add_command(accounts_handler.add)
 accounts.add_command(accounts_handler.delete)
 accounts.add_command(accounts_handler.summary)
+accounts.add_command(accounts_handler.statement)
 
 # -------------------- TRANSACTIONS GROUP --------------------
 @cli.group()

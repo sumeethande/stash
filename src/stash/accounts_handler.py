@@ -137,3 +137,64 @@ def summary(obj: dict):
 
     click.echo(click.style("Here is a summary of all accounts on Stash", fg="yellow"))
     click.echo(tabulate.tabulate(table, headers, tablefmt="grid"))
+
+@click.command()
+@click.argument("id", type=click.STRING)
+@click.pass_obj
+def statement(obj: dict, id: str):
+    '''
+    Prints the account statement for an account.
+
+    ID is the unique ID of the account for which you want the statement.
+    '''
+
+    # Load contents
+    with open(obj["path"], "r") as json_file:
+        contents = json.load(json_file)
+    
+    # Search for the account
+    account_index = -1
+    for i, account in enumerate(contents):
+        if account["id"] == id:
+            account_index += i + 1
+    
+    # Account not found
+    if account_index == -1:
+        click.echo(f"{click.style("ERROR:", fg="black", bg="red")} Cannot find the account. Please re-check the ID.")
+    # Account found
+    else:
+        transactions = contents[account_index]["transactions"]
+
+        # Check if transactions are empty
+        if not transactions:
+            click.echo(f"{click.style("INFO:", bg="blue")} There are no transactions to display.")
+        else:
+            table_data = []
+            table_headers = []
+
+            # Populate table_data
+            for transaction in transactions:
+                row = []
+                for key, value in transaction.items():
+                    if key == "type":
+                        row.append(click.style(f"{value}", fg="red" if value == "DEBIT" else "green"))
+                    elif key == "amount":
+                        row.append(f"{click.style(obj["currency"], fg="cyan")} {click.style(value, fg="red" if transaction["type"] == "DEBIT" else "green")}")
+                    else:
+                        row.append(value)
+                table_data.append(row)
+            
+            # Populate table_headers
+            for header_item in transactions[0].keys():
+                table_headers.append(header_item)
+            
+            # Add total balance
+            total_columns = len(transactions[0].keys())
+            data_row = [""] * total_columns
+            data_row[-1] = click.style(f"{obj["currency"]} {contents[account_index]["balance"]}", fg="yellow")
+            data_row[-2] = click.style("Total:", fg="cyan")
+
+            table_data.append(data_row)
+
+            # Display the statement
+            click.echo(tabulate.tabulate(table_data, table_headers, tablefmt="grid"))
