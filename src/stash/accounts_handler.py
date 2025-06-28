@@ -25,6 +25,7 @@ def add(obj: dict, full_name: str, email: str, dob: click.DateTime):
     account["email"] = email
     account["dob"] = dob.strftime("%Y-%m-%d")
     account["id"] = utils.create_unique_id(full_name, dob)
+    account["balance"] = 0
     account["transactions"] = []
     
     # Read the current JSON file and retreive the contents
@@ -47,7 +48,8 @@ def add(obj: dict, full_name: str, email: str, dob: click.DateTime):
             [click.style("Holder's Full Name", fg="green"), account["full_name"]],
             [click.style("Holder's Email", fg="green"), account["email"]],
             [click.style("Holder's DOB", fg="green"), account["dob"]],
-            [click.style("Account Unique ID", fg="green"), click.style(account["id"], fg="red")]
+            [click.style("Account Unique ID", fg="green"), click.style(account["id"], fg="red")],
+            [click.style("Account Balance", fg="green"), click.style(f"{obj["currency"]} {account["balance"]}", fg="yellow")]
         ]
         click.echo(tabulate.tabulate(table_data, tablefmt="grid"))
     
@@ -86,7 +88,8 @@ def delete(obj: dict, id: str):
                 [click.style("Holder's Full Name", fg="green"), account["full_name"]],
                 [click.style("Holder's Email", fg="green"), account["email"]],
                 [click.style("Holder's DOB", fg="green"), account["dob"]],
-                [click.style("Account Unique ID", fg="green"), click.style(account["id"], fg="red")]
+                [click.style("Account Unique ID", fg="green"), click.style(account["id"], fg="red")],
+                [click.style("Account Balance", fg="green"), click.style(f"{obj["currency"]} {account["balance"]}", fg="yellow")]
             ]
             ,tablefmt="grid"))
         
@@ -121,7 +124,10 @@ def summary(obj: dict):
         row = []
         for key, value in account.items():
             if key != "transactions":
-                row.append(value)
+                if key == "balance":
+                    row.append(click.style(f"{obj["currency"]} {value}", fg="cyan"))
+                else:
+                    row.append(value)
         table.append(row)
     
     # Populate headers
