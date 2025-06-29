@@ -116,27 +116,32 @@ def summary(obj: dict):
     with open(obj["path"], "r") as json_file:
         contents = json.load(json_file)
     
-    # Loop through the accounts
-    table = []
-    headers = []
+    # Ensure contents are not empty, i.e. there are no accounts in Stash
+    if not contents:
+        click.echo(f"{click.style("INFO:", bg="blue")} There are no accounts in stash to display a summary.")
+        click.echo(f"You can create an account by using {click.style("stash accounts add", fg="yellow")}")
+    else:
+        # Loop through the accounts
+        table = []
+        headers = []
 
-    for account in contents:
-        row = []
-        for key, value in account.items():
-            if key != "transactions":
-                if key == "balance":
-                    row.append(click.style(f"{obj["currency"]} {value}", fg="cyan"))
-                else:
-                    row.append(value)
-        table.append(row)
-    
-    # Populate headers
-    for header_item in contents[0].keys():
-        if header_item != "transactions":
-            headers.append(header_item)
+        for account in contents:
+            row = []
+            for key, value in account.items():
+                if key != "transactions":
+                    if key == "balance":
+                        row.append(click.style(f"{obj["currency"]} {value}", fg="cyan"))
+                    else:
+                        row.append(value)
+            table.append(row)
+        
+        # Populate headers
+        for header_item in contents[0].keys():
+            if header_item != "transactions":
+                headers.append(header_item)
 
-    click.echo(click.style("Here is a summary of all accounts on Stash", fg="yellow"))
-    click.echo(tabulate.tabulate(table, headers, tablefmt="grid"))
+        click.echo(click.style("Here is a summary of all accounts on Stash", fg="yellow"))
+        click.echo(tabulate.tabulate(table, headers, tablefmt="grid"))
 
 @click.command()
 @click.argument("id", type=click.STRING)
