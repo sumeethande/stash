@@ -25,7 +25,7 @@ def add(obj: dict, full_name: str, email: str, dob: click.DateTime):
     account["email"] = email
     account["dob"] = dob.strftime("%Y-%m-%d")
     account["id"] = utils.create_unique_id(full_name, dob)
-    account["balance"] = 0
+    account["balance"] = 0.0
     account["transactions"] = []
     
     # Read the current JSON file and retreive the contents

@@ -47,3 +47,4 @@ def transactions(ctx):
 # Add sub-commands to transactions group
 transactions.add_command(transactions_handler.credit)
 transactions.add_command(transactions_handler.debit)
+transactions.add_command(transactions_handler.delete)
