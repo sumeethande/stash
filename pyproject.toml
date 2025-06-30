@@ -23,7 +23,7 @@ readme = "README.md"
 license = {text = "MIT"}
 
 [project.scripts]
-stash = "stash.main:cli"
+stash = "stash_cli.main:cli"
 
 [build-system]
 requires = ["flit_core<4"]
