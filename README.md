@@ -52,6 +52,15 @@ This displays all the transactions for John's account. All columns mentioned abo
 
 This removes a transaction from John's account which has a unique ID **1751128581**. Balance for the account is updated accordingly.
 
+## 📸 CLI Screenshots
+![image](https://github.com/user-attachments/assets/4c77b39a-f97d-4f35-922b-bc96b56e2844)
+
+![image](https://github.com/user-attachments/assets/567c9067-0802-4557-8072-4df219e6c8f0)
+
+![image](https://github.com/user-attachments/assets/b02d65bc-6630-451d-ad4d-b9b192810b89)
+
+![image](https://github.com/user-attachments/assets/bab647d5-109f-45bc-9de9-262c49d73c09)
+
 
 ## 🔗Dependencies
 
