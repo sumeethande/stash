@@ -1,7 +1,7 @@
 import click
 import tabulate
 import json
-from stash import utils
+from stash_cli import utils
 
 @click.command()
 @click.argument("full_name", type=click.STRING)

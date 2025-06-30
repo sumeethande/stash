@@ -1,11 +1,26 @@
 [project]
-name = "stash"
+name = "stash-cli"
 version = "1.0.0"
 description = "The CLI tool for recording all your money related transactions!"
-requires-python = ">=3.11"
+keywords = ["cli", "personal finance", "budget", "transactions", "money"]
+authors = [
+    { name = "Sumeet Hande", email = "hande.sumeet38@gmail.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Office/Business :: Financial"
+]
+requires-python = ">=3.10"
 dependencies = [
     "click>=8.1",
+    "tabulate>=0.8.0"
 ]
+readme = "README.md"
+license = {text = "MIT"}
 
 [project.scripts]
 stash = "stash.main:cli"

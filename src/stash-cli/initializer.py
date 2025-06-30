@@ -2,7 +2,7 @@ import os
 import json
 import click
 from pathlib import Path
-from stash import utils
+from stash_cli import utils
 
 
 @click.command()
