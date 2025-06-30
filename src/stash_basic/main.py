@@ -1,5 +1,5 @@
 import click
-from stash_cli import accounts_handler, transactions_handler, initializer, utils
+from stash_basic import accounts_handler, transactions_handler, initializer, utils
 
 # -------------------- MAIN CLI GROUP --------------------
 @click.group()
