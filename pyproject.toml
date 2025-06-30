@@ -1,6 +1,6 @@
 [project]
 name = "stash-cli"
-version = "1.0.0"
+version = "1.0.1"
 description = "The CLI tool for recording all your money related transactions!"
 keywords = ["cli", "personal finance", "budget", "transactions", "money"]
 authors = [
